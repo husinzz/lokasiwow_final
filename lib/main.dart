@@ -86,15 +86,17 @@ class DetailScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final data = ModalRoute.of(context)!.settings.arguments as TempatWisata;
+
     return Scaffold(
         appBar: AppBar(
-          title: Text("Nama Tempat"),
+          title: Text(data.title),
           centerTitle: true,
         ),
         body: ListView(
           padding: EdgeInsets.fromLTRB(8, 8, 8, 0),
           children: [
-            Image.asset("assets/city1.png"),
+            Image.asset("assets/placeholder.png"),
           ],
         ));
   }
@@ -131,7 +133,10 @@ class MainScreen extends StatelessWidget {
                               Navigator.push(
                                   context,
                                   MaterialPageRoute(
-                                      builder: (context) => DetailScreen()))
+                                      builder: (context) => DetailScreen(),
+                                      settings: RouteSettings(
+                                        arguments: card[index],
+                                      )))
                             },
                         child: Text("Pelajari Lebih lanjut")),
                     TextButton(

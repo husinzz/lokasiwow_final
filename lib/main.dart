@@ -3,7 +3,9 @@ import 'package:http/http.dart' as http;
 import 'dart:convert';
 
 import 'package:lokasiwow_final/screens/MainScreen.dart';
-import 'package:lokasiwow_final/screens/JktScreen.dart';
+import 'package:lokasiwow_final/screens/kotaScreen.dart';
+import 'package:lokasiwow_final/screens/BlogScreen.dart';
+import 'package:lokasiwow_final/screens/kategoriScreen.dart';
 
 void main() {
   runApp(MaterialApp(
@@ -24,9 +26,9 @@ class _HomeState extends State<Home> {
 
   static List<Widget> _WidgetOptions = <Widget>[
     MainScreen(),
-    JktScreen(),
-    // CategoryList(),
-    // BlogList(),
+    BlogScreen(),
+    Kota(),
+    Kategori(),
   ];
 
   void _onItemTapped(int index) {
@@ -44,20 +46,20 @@ class _HomeState extends State<Home> {
       bottomNavigationBar: BottomNavigationBar(
         items: const <BottomNavigationBarItem>[
           BottomNavigationBarItem(
-            icon: Icon(Icons.home),
-            label: 'Home',
+            icon: Icon(Icons.attractions),
+            label: 'Tempat wisata',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.chrome_reader_mode_outlined),
+            label: 'Blogs',
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.location_city),
-            label: 'Location',
+            label: 'Kota',
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.category),
-            label: 'Category',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.article),
-            label: 'Blog',
+            label: 'Kategori wisata',
           ),
         ],
         currentIndex: _selectedIndex,

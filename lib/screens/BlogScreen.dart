@@ -4,18 +4,16 @@ import 'dart:convert';
 import 'package:url_launcher/url_launcher.dart';
 import 'dart:js' as js;
 
-class TempatWisata {
+class Blog {
   final String title;
-  final String locationURL;
-  final String imageURL;
+  final String content;
 
-  const TempatWisata(
-      {required this.title, required this.locationURL, required this.imageURL});
+  const Blog({required this.title, required this.content});
 }
 
 Future<List<dynamic>> fetchWisata() async {
-  var result =
-      await http.get(Uri.parse('https://morning-springs-87133.herokuapp.com/'));
+  var result = await http
+      .get(Uri.parse('https://morning-springs-87133.herokuapp.com/blogs'));
   return json.decode(result.body)['data'];
 }
 
@@ -24,24 +22,22 @@ class DetailScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final data = ModalRoute.of(context)!.settings.arguments as TempatWisata;
+    final data = ModalRoute.of(context)!.settings.arguments as dynamic;
 
     return Scaffold(
         appBar: AppBar(
-          title: Text(data.title),
+          title: Text(data['title']),
           centerTitle: true,
         ),
         body: ListView(
           padding: EdgeInsets.fromLTRB(8, 8, 8, 0),
-          children: [
-            Image.asset("assets/placeholder.png"),
-          ],
+          children: [Text(data['content'])],
         ));
   }
 }
 
-class MainScreen extends StatelessWidget {
-  MainScreen({Key? key}) : super(key: key);
+class BlogScreen extends StatelessWidget {
+  BlogScreen({Key? key}) : super(key: key);
 
   void _launchUrl(url) async {
     if (!await launchUrl(Uri.parse(url))) throw 'could not lunch';
@@ -64,20 +60,25 @@ class MainScreen extends StatelessWidget {
                     return Card(
                       child: Column(
                         children: [
-                          Image.network(snapshot.data[index]['image_url']),
                           ListTile(
-                            title: Text(snapshot.data[index]['name']),
+                            title: Text(snapshot.data[index]['title']),
                           ),
                           ButtonBar(
                             alignment: MainAxisAlignment.start,
                             children: [
                               TextButton(
                                   onPressed: () => {
-                                        js.context.callMethod('open', [
-                                          snapshot.data[index]['location_url']
-                                        ])
+                                        Navigator.push(
+                                            context,
+                                            MaterialPageRoute(
+                                                builder: (context) =>
+                                                    DetailScreen(),
+                                                settings: RouteSettings(
+                                                  arguments:
+                                                      snapshot.data[index],
+                                                )))
                                       },
-                                  child: Text("Peta"))
+                                  child: Text("Pelajari Lebih lanjut")),
                             ],
                           )
                         ],
